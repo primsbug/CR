@@ -175,12 +175,21 @@ Screen:
                 spacing: '1dp'
                 padding: '8dp'
 
-                Image:
-                    id: Corona
+                Button: # Теперь при нажатии на картинку CoronaV осуществляется переход на начальный экран (необязательно к применению)
                     size_hint: None, None
                     size: '225dp', '120dp'
-                    source: 'CoronaV.jpg' 
-
+                    y: self.parent.y
+                    x: self.parent.x
+                    background_color:(1, 1, 1, 0)
+                    on_release: manager.current = 'screen 0'
+                    Image:
+                        id: Corona
+                        size_hint: None, None
+                        size: '225dp', '120dp'
+                        source: 'CoronaV.jpg'
+                        y: self.parent.y
+                        x: self.parent.x
+                        allow_stretch: True
                 MDLabel:
                     text: '  workadsupp@mail.ru'
                     font_style: 'Subtitle1'
@@ -191,6 +200,11 @@ Screen:
                 ScrollView:
 
                     MDList:
+                        OneLineIconListItem:  # Добавил вкладку "На главную" при нажатии на которую происходит переход на начальный экран
+                            text: 'На главную'
+                            on_release: manager.current = 'screen 0' 
+                            IconLeftWidget:
+                                icon: 'arrow-left-thick'
                         OneLineIconListItem:
                             text: 'Рекомендации'
                             on_release: manager.current = 'screen 1'
