@@ -6,6 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.list import MDList
+from kivymd.uix.picker import MDThemePicker
 
 Window.size = (300, 500)  # Устанавливаем размеры экрана под мобильное устройство
 
@@ -100,17 +101,19 @@ Screen:
                     orientation: 'vertical'
 
                     MDToolbar:
-                        title: 'Окно4'
+                        title: 'Настройки'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
-                        right_action_items: [['card-search', lambda x: print('pass')]]
                         elevation: 10
 
                     ScrollView:
 
                         MDList:
-                            TwoLineListItem:
-                                text: '1'
-                                secondary_text: '[Recent text here]'
+                            MDFillRoundFlatIconButton:
+                                text: "Выбор темы"
+                                icon: "format-color-fill"
+                                pos_hint: {"center_x": .5}
+                                on_release: 
+                                    app.show_theme_picker()
 
             MDScreen:
                 name: 'screen 5'
@@ -251,10 +254,12 @@ class CR(MDApp):
         pass
 
     def build(self):
-        self.theme_cls.primary_palette = "Purple"
-        self.theme_cls.primary_hue = "A700"
         screen = Builder.load_string(navigation_helper)
         return screen
+
+    def show_theme_picker(self):
+        theme_dialog = MDThemePicker()
+        theme_dialog.open()
 
     def on_start(self):
         pass
