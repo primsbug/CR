@@ -21,6 +21,7 @@ Screen:
             id: manager
 
             MDScreen:
+                name: 'screen 0'
                 BoxLayout:
                     orientation: 'vertical'
                     MDToolbar:
@@ -129,7 +130,7 @@ Screen:
                                 text: 'What have you forgotten here?'
                             OneLineListItem:
                                 text: 'There is nothing to see here :('
-                                
+
             MDScreen:
                 name: 'screen 6'
 
@@ -181,7 +182,9 @@ Screen:
                     y: self.parent.y
                     x: self.parent.x
                     background_color:(1, 1, 1, 0)
-                    on_release: manager.current = 'screen 0'
+                    on_release: 
+                        manager.current = 'screen 0'
+                        nav_drawer.set_state("close")
                     Image:
                         id: Corona
                         size_hint: None, None
@@ -202,27 +205,37 @@ Screen:
                     MDList:
                         OneLineIconListItem:  # Добавил вкладку "На главную" при нажатии на которую происходит переход на начальный экран
                             text: 'На главную'
-                            on_release: manager.current = 'screen 0' 
+                            on_release: 
+                                manager.current = 'screen 0' 
+                                nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'arrow-left-thick'
                         OneLineIconListItem:
                             text: 'Рекомендации'
-                            on_release: manager.current = 'screen 1'
+                            on_release: 
+                                manager.current = 'screen 1'
+                                nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'information'
                         OneLineIconListItem:
                             text: 'Напоминалка'
-                            on_release: manager.current = 'screen 2'
+                            on_release: 
+                                manager.current = 'screen 2'
+                                nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'alarm-check'
                         OneLineIconListItem:
                             text: 'О Covid-19'
-                            on_release: manager.current = 'screen 3'
+                            on_release: 
+                                manager.current = 'screen 3'
+                                nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'flask-round-bottom'
                         OneLineIconListItem:
                             text: 'Настройки'
-                            on_release: manager.current = 'screen 4'
+                            on_release: 
+                                manager.current = 'screen 4'
+                                nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'cog-outline'        
 
