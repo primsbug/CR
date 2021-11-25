@@ -7,6 +7,8 @@ from kivy.properties import ObjectProperty
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.list import MDList
 from kivymd.uix.picker import MDThemePicker
+from kivy.utils import platform
+import plyer
 
 Window.size = (300, 500)  # Устанавливаем размеры экрана под мобильное устройство
 
@@ -62,19 +64,27 @@ Screen:
             MDScreen:
                 name: 'screen 2'
 
-                MDBoxLayout:
-                    orientation: 'vertical'
-
+                BoxLayout:
+                    id: box
+                    orientation: "vertical"
+                    spacing: 15
+                    
                     MDToolbar:
-                        title: 'Окно2'
+                        title: "Напоминалка"
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
 
-                    ScrollView:
-
-                        MDList:
-                            Button:
-                                text: '0'
+                    
+                    MDRaisedButton:
+                        id: mybutton
+                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        text: "Отправить уведомление"
+                        on_press: app.button_pressed()
+                        
+                    MDLabel:
+                        id: mylabel
+                        halign: "center"
+                        text: ""
 
             MDScreen:
                 name: 'screen 3'
@@ -111,7 +121,7 @@ Screen:
                             MDFillRoundFlatIconButton:
                                 text: "Выбор темы"
                                 icon: "format-color-fill"
-                                pos_hint: {"center_x": .5}
+                                pos_hint: {"center_x": 0.5, "center_y": 0.5}
                                 on_release: 
                                     app.show_theme_picker()
 
@@ -262,7 +272,22 @@ class CR(MDApp):
         theme_dialog.open()
 
     def on_start(self):
-        pass
+        if platform == 'android':
+            from jnius import autoclass
+            service = autoclass('org.test.myapp.ServiceMyservice')
+            mActivity = autoclass('org.kivy.android.PythonActivity').mActivity
+            argument = ''
+            service.start(mActivity, argument)
+            label = self.root.ids.mylabel
+            label.text += "\nservice started"
 
+    def button_pressed(self):
+        import plyer
+        plyer.notification.notify(title='CoronaReminder', message="Не забывайте о мерах по профилактике COVID-19!")
+        label = self.root.ids.mylabel
+        label.text += "\nУведомление отправлено"
+
+if __name__ == '__CR__':
+    plyer.notification.notify(title='BackgroundService Test', message="Notification from android service")
 
 CR().run()
