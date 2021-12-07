@@ -412,9 +412,9 @@ class CR(MDApp):
         label.text += "\nУведомление отправлено"
 
 """"
-class Coronavirus():
+class Coronavirus():        # Информации о короне, нужно вывести на главный экран!!!
     def __init__(self):
-        self.driver = webdriver.Chrome("D:\chromedriver_win32 (2)\chromedriver")
+        self.driver = webdriver.Chrome("D:\chromedriver_win32 (2)\chromedriver") # Указываем путь к драйверу
     def get_data(self):
         self.driver.get('https://www.worldometers.info/coronavirus/')
         table = self.driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]')
