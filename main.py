@@ -9,6 +9,8 @@ from kivymd.uix.list import MDList
 from kivymd.uix.picker import MDThemePicker
 from kivy.utils import platform
 import plyer
+from selenium import webdriver
+import smtplib
 
 Window.size = (800, 600)  # Устанавливаем размеры экрана
 
@@ -75,7 +77,7 @@ Screen:
                 MDBoxLayout:
                     orientation: 'vertical'
                     MDToolbar:
-                        title: 'О covid-19'
+                        title: 'О Covid-19'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
                     ScrollView:
@@ -116,6 +118,10 @@ Screen:
                         title: 'Использование масок'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
+                        MDIconButton:
+                            icon: "arrow-left"
+                            user_font_size: "40sp"
+                            on_release: manager.current = 'screen 1'
                     ScrollView:
                         MDList:
                             TwoLineListItem:
@@ -139,10 +145,14 @@ Screen:
                         title: 'Здоровье дома'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
+                        MDIconButton:
+                            icon: "arrow-left"
+                            user_font_size: "40sp"
+                            on_release: manager.current = 'screen 1'
                     ScrollView:
                         MDList:
                             OneLineListItem:
-                                text: 'Как убирать дом'
+                                text: 'Как убираться дома'
                                 on_release:manager.current = 'screen 12'
                             OneLineListItem:
                                 text: 'Как не принести вирусы с улицы'
@@ -158,6 +168,10 @@ Screen:
                         title: 'Элементарные правила гигиены'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
+                        MDIconButton:
+                            icon: "arrow-left"
+                            user_font_size: "40sp"
+                            on_release: manager.current = 'screen 1'
                     ScrollView:
                         MDList:
                             OneLineListItem:
@@ -175,9 +189,14 @@ Screen:
                 MDBoxLayout:
                     orientation: 'vertical'
                     MDToolbar:
-                        title: 'Здоровье дома'
+                        title: 'Как убираться дома'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
+                        MDIconButton:
+                            icon: "arrow-left"
+                            user_font_size: "40sp"
+                            on_release: manager.current = 'screen 6'
+                            
                     ScrollView:
                         MDList:
                             OneLineListItem:
@@ -198,6 +217,10 @@ Screen:
                         title: 'Как не принести вирусы с улицы'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
+                        MDIconButton:
+                            icon: "arrow-left"
+                            user_font_size: "40sp"
+                            on_release: manager.current = 'screen 6'
                     ScrollView:
                         MDList:
                             OneLineListItem:
@@ -214,6 +237,10 @@ Screen:
                         title: 'Как покупать продукты'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
+                        MDIconButton:
+                            icon: "arrow-left"
+                            user_font_size: "40sp"
+                            on_release: manager.current = 'screen 6'
                     ScrollView:
                         MDList:
                             OneLineListItem:
@@ -239,6 +266,10 @@ Screen:
                                 title: 'Как правильно надеть маску'
                                 left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                                 elevation: 10
+                                MDIconButton:
+                                    icon: "arrow-left"
+                                    user_font_size: "40sp"
+                                    on_release: manager.current = 'screen 5'
                             ScrollView:
                                 MDList:
                                     OneLineListItem:
@@ -267,6 +298,10 @@ Screen:
                                 title: 'Как правильно снять маску'
                                 left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                                 elevation: 10
+                                MDIconButton:
+                                    icon: "arrow-left"
+                                    user_font_size: "40sp"
+                                    on_release: manager.current = 'screen 5'
                             ScrollView:
                                 MDList:
                                     OneLineListItem:
@@ -376,6 +411,36 @@ class CR(MDApp):
         label = self.root.ids.mylabel
         label.text += "\nУведомление отправлено"
 
+""""
+class Coronavirus():
+    def __init__(self):
+        self.driver = webdriver.Chrome("D:\chromedriver_win32 (2)\chromedriver")
+    def get_data(self):
+        self.driver.get('https://www.worldometers.info/coronavirus/')
+        table = self.driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]')
+        country_element = table.find_element_by_xpath("//td[contains(., 'Russia')]")
+        row = country_element.find_element_by_xpath("./..")
+        data = row.text.split(" ")
+        total_cases = data[1]
+        new_cases = data[2]
+        total_deaths = data[3]
+        new_deaths = data[4]
+        active_cases = data[5]
+        total_recovered = data[6]
+        serious_critical = data[7]
+        self.driver.close()
+        print("Country: " + country_element.text)
+        print("Total cases: " + total_cases)
+        print("New cases: " + new_cases)
+        print("Total deaths: " + total_deaths)
+        print("New deaths: " + new_deaths)
+        print("Active cases: " + active_cases)
+        print("Total recovered: " + total_recovered)
+        print("Serious, critical cases: " + serious_critical)
+
+bot = Coronavirus()
+bot.get_data()
+"""
 
 if __name__ == '__CR__':
     plyer.notification.notify(title='BackgroundService Test', message="Notification from android service")
