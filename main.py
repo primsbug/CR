@@ -37,7 +37,7 @@ Screen:
                 MDBoxLayout:
                     orientation: 'vertical'
                     MDToolbar:
-                        title: 'Окно1'
+                        title: 'Рекомендации'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
                     ScrollView:
@@ -57,18 +57,15 @@ Screen:
                     id: box
                     orientation: "vertical"
                     spacing: 15
-
                     MDToolbar:
                         title: "Напоминалка"
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
-
                     MDRaisedButton:
                         id: mybutton
                         pos_hint: {"center_x": 0.5, "center_y": 0.5}
                         text: "Отправить уведомление"
                         on_press: app.button_pressed()
-
                     MDLabel:
                         id: mylabel
                         halign: "center"
@@ -83,9 +80,19 @@ Screen:
                         elevation: 10
                     ScrollView:
                         MDList:
-                            TwoLineListItem:
-                                text: '1'
-                                secondary_text: '[Recent text here]'
+                            OneLineListItem:
+                                text:'Заразиться новым коронавирусом (COVID-19) могут представители всех возрастных категорий.'
+                            OneLineListItem:
+                                text:'Животные – кошки, собаки, хомяки и прочие – не могут быть источником Covid-19'
+                            OneLineListItem:
+                                text:'Насекомые также не могут быть источником Covid-19'
+                            OneLineListItem:
+                                text:'Употребление дезинфицирующих средств не предотвращает и не лечит COVID-19'
+                            OneLineListItem:
+                                text:'Антибиотики против вирусов не действуют, но позволяют лечить бактериальные инфекции.'
+                            OneLineListItem:
+                                text:'Добавление в пищу перца и других острых приправ также не предотвращает и не лечит COVID-19.'
+                    
             MDScreen:
                 name: 'screen 4'
                 MDBoxLayout:
@@ -129,15 +136,20 @@ Screen:
                 MDBoxLayout:
                     orientation: 'vertical'
                     MDToolbar:
-                        title: '#HealthyAtHome'
+                        title: 'Здоровье дома'
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
                     ScrollView:
                         MDList:
                             OneLineListItem:
-                                text: 'What have you forgotten here?'
+                                text: 'Как убирать дом'
+                                on_release:manager.current = 'screen 12'
                             OneLineListItem:
-                                text: 'There is nothing to see here :('
+                                text: 'Как не принести вирусы с улицы'
+                                on_release:manager.current = 'screen 13'
+                            OneLineListItem:
+                                text: 'Как покупать продукты'
+                                on_release:manager.current = 'screen 14'
             MDScreen:
                 name: 'screen 7'
                 MDBoxLayout:
@@ -149,10 +161,68 @@ Screen:
                     ScrollView:
                         MDList:
                             OneLineListItem:
-                                text: 'What have you forgotten here?'
+                                text: 'Мойте руки'
                             OneLineListItem:
-                                text: 'There is nothing to see here :('
-            
+                                text: 'Прикрывайте рот при кашле или чихании'
+                            OneLineListItem:
+                                text: 'Соблюдайте психологическую гигиену'
+                            OneLineListItem:
+                                text: 'Правильно питайтесь и принимайте витамины.'
+                            OneLineListItem:
+                                text: 'Достаточно отдыхайте :).'
+            MDScreen:
+                name: 'screen 12'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Здоровье дома'
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
+                        elevation: 10
+                    ScrollView:
+                        MDList:
+                            OneLineListItem:
+                                text: '1.  Влажную уборку нужно проводить 2–3 раза в неделю и регулярно проветривать помещения.'
+                            OneLineListItem:
+                                text: '2.  Во время уборки важно не забывать протирать ручки дверей,шкафов и тд.'
+                            OneLineListItem:
+                                text: '3.  Роспотребнадзор предписывает использовать мыло или салфетки с антисептиком. '
+                            OneLineListItem:
+                                text: '4.  Пульты и клавиатуры можно поместить в пакеты, так будет проще держать их в чистоте. '
+                            OneLineListItem:
+                                text: '5.  Не забывайте обрабатывать телефон, так как он нас сопровождает практически всюду. '
+            MDScreen:
+                name: 'screen 13'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Как не принести вирусы с улицы'
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
+                        elevation: 10
+                    ScrollView:
+                        MDList:
+                            OneLineListItem:
+                                text: '1.  Нужно соблюдать дистанцию не меньше 2 м, мыть руки после улицы, не трогать лицо.'
+                            OneLineListItem:
+                                text: '2.  Использование резиновых перчаток для защиты от вируса ВОЗ считает нецелесообразным.'
+                            OneLineListItem:
+                                text: '3.  Использовать маску не более 2-3 часов.'
+            MDScreen:
+                name: 'screen 14'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Как покупать продукты'
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
+                        elevation: 10
+                    ScrollView:
+                        MDList:
+                            OneLineListItem:
+                                text: '1.  Заказывать бесконтактную доставку с предоплатой на сайте.'
+                            OneLineListItem:
+                                text: '2.  Мыть овощи и фрукты с антисептиками, мылом и другими средствами не рекомендуется.'
+                            OneLineListItem:
+                                text: '3.  Можно пересыпать продукты в домашние емкости для хранения.'
+                                
             MDScreen:
                 name: 'screen 10'              
                 MDBottomNavigation:
@@ -162,7 +232,7 @@ Screen:
                         text: 'Как правильно надеть маску'
                         icon: 'face-mask'
                         badge_icon: "numeric-10"
-                        
+
                         MDBoxLayout:
                             orientation: 'vertical'
                             MDToolbar:
@@ -185,13 +255,12 @@ Screen:
                                         text: '6.  Сомните верхний край маски по форме носа.'
                                     OneLineListItem:
                                         text: '7.  Натяните маску на рот и подбородок.' 
-
                     MDBottomNavigationItem:
                         name: 'screen 2'
                         text: 'Как правильно снять маску'
                         icon: 'face-mask'
                         badge_icon: "numeric-10"
-                        
+
                         MDBoxLayout:
                             orientation: 'vertical'
                             MDToolbar:
@@ -206,7 +275,7 @@ Screen:
                                         text: '2.  Не касайтесь наружной части маски, она грязная.'
                                         secondary_text: 'Дотрагивайтесь только до резиночек, которыми она крепится к голове.'
                                     OneLineListItem:
-                                        text: '3.  Сложите маску вдвое, выбросьте ее в мусорку и протрите их спиртовым антисептиком.'                                      
+                                        text: '3.  Сложите маску вдвое, выбросьте ее в мусорку и протрите их спиртовым антисептиком.'
         MDNavigationDrawer:
             id: nav_drawer
             BoxLayout:
