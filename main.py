@@ -421,22 +421,20 @@ class Coronavirus():        # Информации о короне, нужно �
         country_element = table.find_element_by_xpath("//td[contains(., 'Russia')]")
         row = country_element.find_element_by_xpath("./..")
         data = row.text.split(" ")
-        total_cases = data[1]
-        new_cases = data[2]
-        total_deaths = data[3]
-        new_deaths = data[4]
-        active_cases = data[5]
+        total_cases = data[2]
+        new_cases = data[3]
+        total_deaths = data[4]
+        new_deaths = data[5]
+        active_cases = data[8]
         total_recovered = data[6]
-        serious_critical = data[7]
+        print("Страна: " + country_element.text)
+        print("Всего случаев: " + total_cases)
+        print("Новые случаи: " + new_cases)
+        print("Всего смертей: " + total_deaths)
+        print("Новые смерти: " + new_deaths)
+        print("Активные случаи: " + active_cases)
+        print("Всего восстановлено: " + total_recovered)
         self.driver.close()
-        print("Country: " + country_element.text)
-        print("Total cases: " + total_cases)
-        print("New cases: " + new_cases)
-        print("Total deaths: " + total_deaths)
-        print("New deaths: " + new_deaths)
-        print("Active cases: " + active_cases)
-        print("Total recovered: " + total_recovered)
-        print("Serious, critical cases: " + serious_critical)
 
 bot = Coronavirus()
 bot.get_data()
