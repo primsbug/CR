@@ -426,6 +426,9 @@ Screen:
                                 nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'arrow-left-thick'
+                                on_release: 
+                                    manager.current = 'screen 0' 
+                                    nav_drawer.set_state("close")
                         OneLineIconListItem:
                             text: 'Рекомендации'
                             on_release: 
@@ -433,6 +436,9 @@ Screen:
                                 nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'information'
+                                on_release:
+                                    manager.current = 'screen 1'
+                                    nav_drawer.set_state("close")
                         OneLineIconListItem:
                             text: 'Напоминалка'
                             on_release: 
@@ -440,6 +446,9 @@ Screen:
                                 nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'alarm-check'
+                                on_release: 
+                                    manager.current = 'screen 2'
+                                    nav_drawer.set_state("close")
                         OneLineIconListItem:
                             text: 'О Covid-19'
                             on_release: 
@@ -447,13 +456,19 @@ Screen:
                                 nav_drawer.set_state("close")
                             IconLeftWidget:
                                 icon: 'flask-round-bottom'
+                                on_release: 
+                                    manager.current = 'screen 3'
+                                    nav_drawer.set_state("close")
                         OneLineIconListItem:
                             text: 'Настройки'
                             on_release: 
                                 manager.current = 'screen 4'
                                 nav_drawer.set_state("close")
                             IconLeftWidget:
-                                icon: 'cog-outline'                           
+                                icon: 'cog-outline'
+                                on_release: 
+                                    manager.current = 'screen 4'
+                                    nav_drawer.set_state("close")                           
 """
 
 
