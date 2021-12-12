@@ -42,17 +42,13 @@ Screen:
                         font_style: 'subtitle1'
                         elevation: 12
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
-                        MDRectangleFlatIconButton:
+                        MDFillRoundFlatIconButton:
+                            text: "Информация о коронавирусе"
                             icon: "earth-arrow-right"
                             pos_hint: {"center_x": .5, "center_y": .5}
-                            text: "Информация о Covid-19"
-                            font_size : "17sp"
-                            theme_text_color: "Custom"
-                            text_color: 1, 1, 1, 1
-                            line_color: 0, 0, 0, 0
-                            icon_color: 1, 1, 1, 1
+                            user_font_size : "40sp"
                             on_release: app.link()
-                           
+
                     FitImage:
                         size_hint_y: 3000
                         y: root.height - self.height
@@ -128,17 +124,17 @@ Screen:
                     ScrollView:
                         MDList:
                             OneLineListItem:
-                                text:'◊ Заразиться новым коронавирусом (COVID-19) могут представители всех возрастных категорий.'
+                                text:'Заразиться новым коронавирусом (COVID-19) могут представители всех возрастных категорий.'
                             OneLineListItem:
-                                text:'◊ Животные – кошки, собаки, хомяки и прочие – не могут быть источником Covid-19'
+                                text:'Животные – кошки, собаки, хомяки и прочие – не могут быть источником Covid-19'
                             OneLineListItem:
-                                text:'◊ Насекомые также не могут быть источником Covid-19'
+                                text:'Насекомые также не могут быть источником Covid-19'
                             OneLineListItem:
-                                text:'◊ Употребление дезинфицирующих средств не предотвращает и не лечит COVID-19'
+                                text:'Употребление дезинфицирующих средств не предотвращает и не лечит COVID-19'
                             OneLineListItem:
-                                text:'◊ Антибиотики против вирусов не действуют, но позволяют лечить бактериальные инфекции.'
+                                text:'Антибиотики против вирусов не действуют, но позволяют лечить бактериальные инфекции.'
                             OneLineListItem:
-                                text:'◊ Добавление в пищу перца и других острых приправ также не предотвращает и не лечит COVID-19.'
+                                text:'Добавление в пищу перца и других острых приправ также не предотвращает и не лечит COVID-19.'
                                 
             
             #Создаем четвертый экран под вкладку 'Настройки'                    
@@ -234,15 +230,15 @@ Screen:
                     ScrollView:
                         MDList:
                             OneLineListItem:
-                                text: '◊ Мойте руки'
+                                text: 'Мойте руки'
                             OneLineListItem:
-                                text: '◊ Прикрывайте рот при кашле или чихании'
+                                text: 'Прикрывайте рот при кашле или чихании'
                             OneLineListItem:
-                                text: '◊ Соблюдайте психологическую гигиену'
+                                text: 'Соблюдайте психологическую гигиену'
                             OneLineListItem:
-                                text: '◊ Правильно питайтесь и принимайте витамины.'
+                                text: 'Правильно питайтесь и принимайте витамины.'
                             OneLineListItem:
-                                text: '◊ Достаточно отдыхайте :).'
+                                text: 'Достаточно отдыхайте :).'
                                 
             
             # Создаем экран 10 под вкладку 'Как правильно надеть маску'
