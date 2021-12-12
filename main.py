@@ -1,16 +1,16 @@
 from kivy.core.window import Window
 from kivy.lang import Builder  # Импортируем функциональность консруктора
 from kivymd.app import MDApp
-from kivymd.uix.label import MDLabel  # импортируем метки
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.list import MDList
 from kivymd.uix.picker import MDThemePicker
-from kivy.utils import platform
 import plyer
-from selenium import webdriver
-import smtplib
+from kivy.clock import Clock
+from kivymd.uix.picker import MDTimePicker
+import datetime
+import pygame
 
 Window.size = (800, 600)  # Устанавливаем размеры экрана
 
@@ -55,23 +55,31 @@ Screen:
                                 on_release: manager.current = 'screen 7'
             MDScreen:
                 name: 'screen 2'
-                BoxLayout:
-                    id: box
+                MDFloatLayout:
                     orientation: "vertical"
-                    spacing: 15
                     MDToolbar:
+						pos_hint: {'top': 1}
                         title: "Напоминалка"
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
-                    MDRaisedButton:
-                        id: mybutton
-                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-                        text: "Отправить уведомление"
-                        on_press: app.button_pressed()
-                    MDLabel:
-                        id: mylabel
-                        halign: "center"
-                        text: ""
+					MDIconButton:
+						icon: "plus"
+						pos_hint: {"center_x": .87, "center_y": .84}
+						md_bg_color: 0, 0, 0, 0
+						text_color: 1, 1, 1, 1
+						on_release: app.time_picker()
+					MDLabel:
+						id: alarm_time
+						text: ""
+						pos_hint: {"center_y": .5}
+						halign: "center"
+						font_size: "30sp"
+						bold: True
+					MDRaisedButton:
+						text: "Stop"
+						pos_hint: {"center_x": .5, "center_y": .400}
+						on_release: app.stop()
+						
             MDScreen:
                 name: 'screen 3'
                 MDBoxLayout:
@@ -94,22 +102,21 @@ Screen:
                                 text:'Антибиотики против вирусов не действуют, но позволяют лечить бактериальные инфекции.'
                             OneLineListItem:
                                 text:'Добавление в пищу перца и других острых приправ также не предотвращает и не лечит COVID-19.'
-                    
+
             MDScreen:
                 name: 'screen 4'
-                MDBoxLayout:
-                    orientation: 'vertical'
+                MDFloatLayout:
+                    orientation: "vertical"
                     MDToolbar:
-                        title: 'Настройки'
+						pos_hint: {'top': 1}
+                        title: "Настройки"
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
                         elevation: 10
-                    ScrollView:
-                        MDList:
-                            MDFillRoundFlatIconButton:
-                                text: "Выбор темы"
-                                icon: "format-color-fill"
-                                pos_hint: {"center_x": 0.5, "center_y": 0.5}
-                                on_release: app.show_theme_picker()
+                    MDRaisedButton:
+                        text: "Выбор темы"
+                    	icon: "format-color-fill"
+						pos_hint: {"center_x": .5, "center_y": .5}
+                        on_release: app.show_theme_picker()
             MDScreen:
                 name: 'screen 5'
                 MDBoxLayout:
@@ -196,7 +203,7 @@ Screen:
                             icon: "arrow-left"
                             user_font_size: "40sp"
                             on_release: manager.current = 'screen 6'
-                            
+
                     ScrollView:
                         MDList:
                             OneLineListItem:
@@ -249,7 +256,7 @@ Screen:
                                 text: '2.  Мыть овощи и фрукты с антисептиками, мылом и другими средствами не рекомендуется.'
                             OneLineListItem:
                                 text: '3.  Можно пересыпать продукты в домашние емкости для хранения.'
-                                
+
             MDScreen:
                 name: 'screen 10'              
                 MDBottomNavigation:
@@ -259,7 +266,6 @@ Screen:
                         text: 'Как правильно надеть маску'
                         icon: 'face-mask'
                         badge_icon: "numeric-10"
-
                         MDBoxLayout:
                             orientation: 'vertical'
                             MDToolbar:
@@ -291,7 +297,6 @@ Screen:
                         text: 'Как правильно снять маску'
                         icon: 'face-mask'
                         badge_icon: "numeric-10"
-
                         MDBoxLayout:
                             orientation: 'vertical'
                             MDToolbar:
@@ -380,67 +385,66 @@ Screen:
 
 
 class CR(MDApp):
-    class ContentNavigationDrawer(BoxLayout):
-        manager = ObjectProperty()
-        nav_drawer = ObjectProperty()
 
-    class DrawerList(ThemableBehavior, MDList):
-        pass
+	pygame.init()
+	sound = pygame.mixer.Sound("alarm.mp3")
+	volume = 0
 
-    def build(self):
-        screen = Builder.load_string(navigation_helper)
-        return screen
+	def build(self):
+		screen = Builder.load_string(navigation_helper)
+		return screen
 
-    def show_theme_picker(self):
-        theme_dialog = MDThemePicker()
-        theme_dialog.open()
+	def time_picker(self):
+		time_dialog = MDTimePicker()
+		time_dialog.bind(time=self.get_time, on_save=self.schedule)
+		time_dialog.open()
 
-    def on_start(self):
-        if platform == 'android':
-            from jnius import autoclass
-            service = autoclass('org.test.myapp.ServiceMyservice')
-            mActivity = autoclass('org.kivy.android.PythonActivity').mActivity
-            argument = ''
-            service.start(mActivity, argument)
-            label = self.root.ids.mylabel
-            label.text += "\nservice started"
+	def schedule(self, *args):
+		Clock.schedule_once(self.alarm, 1)
 
-    def button_pressed(self):
-        import plyer
-        plyer.notification.notify(title='CoronaReminder', message="Не забывайте о мерах по профилактике COVID-19!")
-        label = self.root.ids.mylabel
-        label.text += "\nУведомление отправлено"
+	def alarm(self, *args):
+		Clock.schedule_interval(self.update, 1)
 
-""""
-class Coronavirus():        # Информации о короне, нужно вывести на главный экран!!!
-    def __init__(self):
-        self.driver = webdriver.Chrome("D:\chromedriver_win32 (2)\chromedriver") # Указываем путь к драйверу
-    def get_data(self):
-        self.driver.get('https://www.worldometers.info/coronavirus/')
-        table = self.driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]')
-        country_element = table.find_element_by_xpath("//td[contains(., 'Russia')]")
-        row = country_element.find_element_by_xpath("./..")
-        data = row.text.split(" ")
-        total_cases = data[2]
-        new_cases = data[3]
-        total_deaths = data[4]
-        new_deaths = data[5]
-        active_cases = data[8]
-        total_recovered = data[6]
-        print("Страна: " + country_element.text)
-        print("Всего случаев: " + total_cases)
-        print("Новые случаи: " + new_cases)
-        print("Всего смертей: " + total_deaths)
-        print("Новые смерти: " + new_deaths)
-        print("Активные случаи: " + active_cases)
-        print("Всего восстановлено: " + total_recovered)
-        self.driver.close()
+	def update(self, dt):
+		current_time = datetime.datetime.now().strftime("%H:%M:%S")
+		if self.root.ids.alarm_time.text == str(current_time):
+			self.start()
 
-bot = Coronavirus()
-bot.get_data()
-"""
+	def set_volume(self, *args):
+		self.volume += 0.05
+		if self.volume < 1.0:
+			Clock.schedule_interval(self.set_volume, 10)
+			self.sound.set_volume(self.volume)
+			print(self.volume)
+		else:
+			self.sound.set_volume(1)
+			print("Max")
 
-if __name__ == '__CR__':
-    plyer.notification.notify(title='BackgroundService Test', message="Notification from android service")
+	def start(self, *args):
+		self.sound.play(-1)
+		self.set_volume()
+		plyer.notification.notify(title='CoronaReminder', message="Не забывайте о мерах по профилактике COVID-19!")
+
+	def stop(self):
+		self.sound.stop()
+		Clock.unschedule(self.set_volume)
+		self.volume = 0
+
+	def get_time(self, instance, time):
+		self.root.ids.alarm_time.text = str(time)
+
+	def show_theme_picker(self):
+		theme_dialog = MDThemePicker()
+		theme_dialog.open()
+
+	class ContentNavigationDrawer(BoxLayout):
+		manager = ObjectProperty()
+		nav_drawer = ObjectProperty()
+
+	class DrawerList(ThemableBehavior, MDList):
+		pass
+
+if __name__ == '__main__':
+	plyer.notification.notify(title='Приветствуем!', message="Спасибо за выбор нашего приложения!")
 
 CR().run()
